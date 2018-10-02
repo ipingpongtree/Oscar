@@ -1,0 +1,101 @@
+        static void mergeBigArray1()
+        {
+            int[] leftArray = new int[] { 1, 3, 59, 729, 4622, 24983, 29884 };
+            int[] rightArray = new int[] { 2, 3, 24, 5293, 29347247 };
+            int[] bigArray = new int[leftArray.Length + rightArray.Length];
+
+            int tla = 0;
+            int tra = 0;
+            int i = 0;
+            int j = 0;
+
+            for (i = 0; i < bigArray.Length; i++)
+            {
+                if (tla < leftArray.Length && tra < rightArray.Length && leftArray[tla] <= rightArray[tra])
+                {
+                    bigArray[i] = leftArray[tla];
+                    tla++;
+                }
+                else if (tla < leftArray.Length && tra < rightArray.Length && rightArray[tra] < leftArray[tla])
+                {
+                    bigArray[i] = rightArray[tra];
+                    tra++;
+                }
+                else if (tla < leftArray.Length)
+                {
+                    bigArray[i] = leftArray[tla];
+                    tla++;
+                }
+                else if (tra < rightArray.Length)
+                {
+                    bigArray[i] = rightArray[tra];
+                    tra++;
+                }
+            }
+            for (j = 0; j < bigArray.Length; j++)
+            {
+                Console.WriteLine(bigArray[j]);
+
+            }
+            Console.ReadLine();
+        }
+
+        static void mergeBigArray2()//(leftArray, rightArray) <-- parameters
+        {
+            int[] leftArray = new int[] { 1, 1, 1, 1, 8, 9, 12 };
+            int[] rightArray = new int[] { 1, 1, 1, 2, 3, 6, 16, 17, 18, 19, 20};
+            int[] bigArray = new int[leftArray.Length + rightArray.Length];
+
+            int tla = 0;
+            int tra = 0;
+            //int i = 0;
+            int j = 0;
+            int ti = 0;
+
+            for (int i = 0; i < bigArray.Length; i++)
+            {
+                if (leftArray[tla] <= rightArray[tra])
+                {
+                    bigArray[i] = leftArray[tla];
+                    tla++;
+                    if (tla == leftArray.Length)
+                        break;
+                }
+                else if (rightArray[tra] < leftArray[tla])
+                {
+                    bigArray[i] = rightArray[tra];
+                    tra++;
+                    if (tra == rightArray.Length)
+                        break;
+                }
+                ti = i+1;
+            }
+          
+            Console.WriteLine(ti);
+            Console.ReadLine();
+
+            if (tla < leftArray.Length)
+            {
+                for (int y = 0; y < leftArray.Length - tla; y++)
+                {
+                    bigArray[ti + y + 1] = leftArray[tla + y];
+                }
+            }
+
+            if (tra < rightArray.Length)
+            {
+                for (int y = 0; y < rightArray.Length - tra; y++)
+                {
+                    bigArray[ti + y + 1] = rightArray[tra + y];
+                }
+            }
+
+            for (j = 0; j < bigArray.Length; j++)
+            {
+                Console.WriteLine(bigArray[j]);
+
+            }
+            Console.ReadLine();
+        }
+    }
+}
