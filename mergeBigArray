@@ -1,0 +1,73 @@
+static void Main(string[] args)
+        {
+            int[] bigArray = new int[] { 2, 3, 5, 1, 2, 7 };
+            int low = 0;
+            int middle = 2;
+            int high = 5;
+            sort(bigArray, low, high);
+            //sort(bigArray, middle, high);
+            //mergeArray(bigArray, low, middle, high);
+        }
+
+        static void sort(int[] bigArray, int low, int high)
+        {
+            if (low < high)
+            {
+                int middle = low / 2 + high / 2;
+                sort(bigArray, low, middle);
+                sort(bigArray, middle + 1, high);
+                mergeArray(bigArray, low, middle, high);
+            }
+        }
+        
+        
+#--------------------------------------------------------
+
+static void mergeArray(int[] bigArray, int low, int middle, int high)
+        {
+            int[] leftArray = new int[middle - low + 1];
+            int[] rightArray = new int[high - middle];
+
+            for (int i=0; i < leftArray.Length; i++)
+            {
+                leftArray[i] = bigArray[i + low];
+            }
+
+            for (int i = 0; i < rightArray.Length; i++)
+            {
+                rightArray[i] = bigArray[i+middle+1];
+            }
+
+            int tla = 0;
+            int tra = 0;
+
+            for (int i = low; i < bigArray.Length; i++)
+            {
+                if (tla < leftArray.Length && tra < rightArray.Length && leftArray[tla] <= rightArray[tra])
+                {
+                    bigArray[i] = leftArray[tla];
+                    tla++;
+                }
+                else if (tla < leftArray.Length && tra < rightArray.Length && rightArray[tra] < leftArray[tla])
+                {
+                    bigArray[i] = rightArray[tra];
+                    tra++;
+                }
+                else if (tla < leftArray.Length)
+                {
+                    bigArray[i] = leftArray[tla];
+                    tla++;
+                }
+                else if (tra < rightArray.Length)
+                {
+                    bigArray[i] = rightArray[tra];
+                    tra++;
+                }
+            }
+            for (int j = low; j < bigArray.Length; j++)
+            {
+                Console.WriteLine(bigArray[j]);
+
+            }
+            Console.ReadLine();
+        }
