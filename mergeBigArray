@@ -21,7 +21,7 @@ static void Main(string[] args)
         }
         
         
-#--------------------------------------------------------
+//--------------------------------------------------------
 
 static void mergeArray(int[] bigArray, int low, int middle, int high)
         {
@@ -71,3 +71,5 @@ static void mergeArray(int[] bigArray, int low, int middle, int high)
             }
             Console.ReadLine();
         }
+    }
+}
