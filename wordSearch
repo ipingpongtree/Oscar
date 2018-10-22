@@ -1,19 +1,53 @@
-partial class Program
-    {
-        static void Main(string[] args)
+static void Main(string[] args)
         {
+            string word = "GOOD";
             Random rnd = new Random();
-            char[,] board = new char[8, 8];
+            char[,] board = new char[8, 9];
+            String test1 = "1243565";
+            Console.Write(test1.Substring(2));
+            Console.WriteLine(' ');
+            bool temporary = false;
 
             for (int i = 0; i < 8; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < 9; j++)
                 {
                     board[i, j] = Convert.ToChar(rnd.Next(0, 25) + 65);
+                }
+            }
+
+            board[0, 0] = 'G';
+            board[1, 1] = 'O';
+            board[2, 2] = 'O';
+            board[3, 3] = 'D';
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
                     Console.Write(board[i, j]);
                     Console.Write(' ');
                 }
                 Console.WriteLine();
+            }
+
+            Console.Write(board.GetLength(0));
+            Console.Write(board.GetLength(1));
+
+            for (int i=0; i<board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    if(dfs(board, i, j, word))
+                    {
+                        Console.Write("True");
+                        temporary = true;
+                    }
+                }
+            }
+            if (temporary == false)
+            {
+                Console.Write("False");
             }
             Console.ReadLine();
         }
@@ -25,14 +59,17 @@ partial class Program
             {
                 return true;
             }
-            if (i<0 || i>=board.Length || j<0 || j>board.Length || word[0]!=board[i, j])
+            if (i<0 || i>=board.GetLength(0) || j<0 || j>=board.GetLength(1) || word[0]!=board[i, j])
             {
                 return false;
             }
             char temp = board[i, j];
             board[i, j] = '#';
-            res = dfs(board, i + 1, j, word) || dfs(board, i - 1, j, word) || dfs(board, i, j + 1, word) || dfs(board, i, j - 1, word);
+            res = dfs(board, i + 1, j, word.Substring(1)) || dfs(board, i - 1, j, word.Substring(1)) //row down || row up
+                || dfs(board, i, j + 1, word.Substring(1)) || dfs(board, i, j - 1, word.Substring(1)) //column right || column left
+                || dfs(board, i + 1, j + 1, word.Substring(1)) || dfs(board, i - 1, j + 1, word.Substring(1)) //right down || right up
+                || dfs(board, i - 1, j - 1, word.Substring(1)) || dfs(board, i + 1, j - 1, word.Substring(1)); //left up || left down
             board[i, j] = temp;
             return res;
         }
-    }
+    
