@@ -1,0 +1,149 @@
+<script type="text/javascript">
+        window.onload = function () {
+            var wsConnection;
+            LoadFromStorage();
+        }
+
+            function calculateResult()
+            {
+                var x = new Array(12);
+                var days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                var daysLeap = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                var p = parseFloat(document.getElementById("principalAmount").value);
+                var r = parseFloat(document.getElementById("rateAmount").value);
+                var n = parseFloat(document.getElementById("monthAmount").value); 
+                var m = String(p * r * (Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1.0));
+                var dayRate = r / 365;
+                var dayRateLeap = r / 366;
+                var year = 2018;
+                var dayRateTest = (year % 100 === 0) ? (year % 400 === 0) : (year % 4 === 0);
+                var firstMonthInterest = dayRate * days[0] * p;
+                var secondMonthInterest = dayRate * days[1] * (p - firstMonthInterest);
+                //var d = Date.parse('January 5, 2018');
+                //var month = d.getMonth();
+                //var day = d.getDay();
+                var daysInterest = dayRate * 5 * p;
+                var firstMonthInterest1 = (p - daysInterest - 200) * dayRate * (days[0] - 5);
+                console.log(dayRateTest);
+                //var m = ((p * r * (1.0 + r) ^ n) / ((1.0 + r) ^ n - 1.0));
+
+                mortgageResult.textContent = String(m);
+                localStorage.setItem("principalAmount", document.getElementById("principalAmount").value);
+                firstMonthResult.textContent = String(p - daysInterest - firstMonthInterest);
+                
+            }
+
+            function LoadFromStorage()
+            {
+                document.getElementById("principalAmount").value = localStorage.key(0); //"123456";
+            }
+
+            var count = 0;
+        
+            function addMoreItems()
+            {     
+             
+                var editableInput = document.createElement("input");
+                var saveDate = document.createElement("input");
+                saveDate.type = "date";
+                editableInput.id = count;
+                saveDate.id = count;
+                document.getElementById("div1").appendChild(editableInput);
+                document.getElementById("div2").appendChild(saveDate);
+                count++;
+            }
+
+            function storageAPI() {
+                document.getElementById("btnAdd").onclick = function () {
+                    localStorage.setItem(document.getElementById("toStorageKey").value,
+                        document.getElementById("toStorageValue").value);
+                    LoadFromStorage();
+                }
+                document.getElementById("btnRemove").onclick = function () {
+                    localStorage.removeItem(document.getElementById("toStorageKey").value);
+                    LoadFromStorage();
+                }
+                document.getElementById("btnClear").onclick = function () {
+                    localStorage.clear();
+                    LoadFromStorage();
+                }
+            }
+
+            function LoadFromStorage2() {
+                var storageDiv = document.getElementById("storage");
+                var tbl = document.createElement("table");
+                tbl.id = "storageTable";
+                if (localStorage.length > 0) {
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var row = document.createElement("tr");
+                        var key = document.createElement("td");
+                        var val = document.createElement("td");
+                        key.innerText = localStorage.key(i);
+                        val.innerText = localStorage.getItem(key.innerText);
+                        row.appendChild(key);
+                        row.appendChild(val);
+                        tbl.appendChild(row);
+                    }
+                }
+                else {
+                    var row = document.createElement("tr");
+                    var col = document.createElement("td");
+                    col.innerText = "No data in local storage.";
+                    row.appendChild(col);
+                    tbl.appendChild(row);
+                }
+
+                if (document.getElementById("storageTable")) {
+                    document.getElementById("storageTable").replaceNode(tbl);
+                }
+                else {
+                    storageDiv.appendChild(tbl);
+                }
+            }
+        
+    </script>
+<body>
+    <form>
+    <div align="center">
+        <div>
+            Mortgage Calculator
+        </div>
+        <div>Principal amount:
+            <input type="number" id="principalAmount" style="height: 30px; width:300px"/>
+        </div>
+        <div>Interest rate:
+            <input type="number" id="rateAmount" style="height: 30px; width: 300px" />
+        </div>
+        <div>Months:
+            <input type="number" id="monthAmount" style="height: 30px; width: 300px" />
+        </div>
+        <div>
+            Saveback date:
+            <input type="date" id="savebackDate" style="height: 30px; width:300px"/>
+        </div>
+        <div>
+            Amount:
+            <input type="number" id="amount" style="height: 30px; width:300px"/>
+        </div>
+        <div id="div1">
+            Save amount: 
+        </div>
+        <div id="div2">
+            Save date: 
+        </div>
+        <div>
+            Add more items:
+            <button onclick="addMoreItems()" id="addMoreItems">Add more items</button>
+        </div>
+        <div>First month result:
+            <textarea id="firstMonthResult"></textarea>
+        </div>
+        <div>
+            <button onclick="calculateResult()" id="calculateResult">Calculate</button>
+        </div>
+        <div>
+            <textarea id="mortgageResult"></textarea>
+        </div>
+    </div>
+    </form>
+</body>
