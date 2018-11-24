@@ -1,0 +1,38 @@
+@page
+@model aspCoreRazor_Oscar.Pages.GeoLocationModel
+@{
+    ViewData["Title"] = "GeoLocation";
+}
+
+<script>
+    var video;
+    window.onload = function () {
+        var geoLocator = window.navigator.geolocation;
+        var posOptions = { enableHighAccuracy: true, timeout: 45000 };
+        geoLocator.getCurrentPosition(successPosition, errorPosition, posOptions);
+    }
+    function successPosition(pos) {
+
+        var sp = document.createElement("p");
+        sp.innerText = "Latitude: " + pos.coords.latitude + "Longitude: " + pos.coords.longitude;
+        document.getElementById("geoResults").appendChild(sp);
+
+    }
+    function errorPosition(err) {
+
+        var sp = document.createElement("p");
+        sp.innerText = "error: " + errr.message; +"code:" + err.code;
+        document.getElementById("geoResults").appendChild(sp);
+    }
+</script>
+
+<h2>geoLocation</h2>
+
+<body>
+    <div id="geoResults">
+        <p> Current Location is:</p>
+    </div>
+</body>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
